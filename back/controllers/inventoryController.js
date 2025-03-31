@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import { v4 as uuidv4 } from "uuid"; 
 import inventoryEntries from "../models/inventoryEntries.js"; 
 
+
 export const addInventory = async (req, res) => {
   try {
     const { name, category, qty, threshold } = req.body;
@@ -83,7 +84,7 @@ export const updateInventoryItem = async (req, res) => {
 };
 
 
-
+// Issued Inventory
 export const issueInventory = async (req, res) => {
   try {
     const { category, itemName, issuedTo, issuedQty } = req.body;
@@ -143,3 +144,17 @@ export const getIssuedInventory = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
+// // Delete Inventory Item
+// export const deleteInventoryItem = async (req, res) => {
+//   try {
+//     const { category, name, qty, threshold, status } = req.body;
+
+//     const inventoryCategory = await inventoryEntries.deleteMany({ category, name, qty, threshold, status});
+//     res.status(200).json({ message: "Inventory deleted successfully", deleteInventoryItem: item });
+//   } catch (error) {
+//     console.error("Error deleting inventory:", error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// };
+

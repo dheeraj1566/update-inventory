@@ -17,14 +17,19 @@ function Dashboard() {
               Add Inventory
             </li>
           </Link>
-          <Link to="/change-inventory">
+          {/* <Link to="/change-inventory">
             <li className="py-3 text-lg hover:font-bold text-blue-50 px-5 hover:bg-gray-50 hover:text-blue-900 border-black border-b-1">
               Change Inventory
             </li>
-          </Link>
+          </Link> */}
           <Link to="/issue-inventory">
             <li className="py-3 text-lg hover:font-bold text-blue-50 px-5 hover:bg-gray-50 hover:text-blue-900 border-black border-b-1">
               Issued Inventory
+            </li>
+          </Link>
+          <Link to="/threshold">
+            <li className="py-3 text-lg hover:font-bold text-blue-50 px-5 hover:bg-gray-50 hover:text-blue-900 border-black border-b-1">
+              Threshold
             </li>
           </Link>
           <Link to="/request">

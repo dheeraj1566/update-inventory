@@ -13,8 +13,12 @@ const itemSchema = new mongoose.Schema({
   threshold: Number,
   status: {
     type: String,
-    enum: ["Available", "Out of Stock"],
+    enum: ["Available", "Low Stock","Out of Stock" ],
   },
+  subCategory:{
+    type:String,
+    enum:["Color","Size","Price"]
+  }
 });
 
 const inventorySchema = new mongoose.Schema({
