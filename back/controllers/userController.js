@@ -63,3 +63,9 @@ export const checkAuth = async (req, res) => {
     res.status(401).json({ message: "Invalid token" });
   }
 };
+
+export const userLogOut = async (req, res) => {
+  res.clearCookie('token');
+  res.json({message:'User logged out'})
+  res.status(200).json({message:"user log out successfully"})
+};

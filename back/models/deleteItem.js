@@ -2,12 +2,12 @@ import mongoose from "mongoose";
 
 const DeleteSchema = new mongoose.Schema({
     name: String,
+    category:String,
     qty: Number,
-    threshold: Number,
-    status: {
-      type: String,
-      enum: ["Available", "Low Stock","Out of Stock" ],
-    },
+    removedDate: { type: Date, default: Date.now },
+   
   });
 
-export default mongoose.model("Delete", DeleteSchema);
+
+const removedInventory = mongoose.model("Delete", DeleteSchema);
+export default removedInventory;

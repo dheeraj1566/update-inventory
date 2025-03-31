@@ -87,7 +87,7 @@ export const updateInventoryItem = async (req, res) => {
 // Issued Inventory
 export const issueInventory = async (req, res) => {
   try {
-    const { category, itemName, issuedTo, issuedQty } = req.body;
+    const { category, itemName, issuedTo, issuedQty , return:isReturnable} = req.body;
 
     if (!category || !itemName || !issuedTo || issuedQty === undefined) {
       return res.status(400).json({ message: "All fields are required" });
@@ -117,6 +117,7 @@ export const issueInventory = async (req, res) => {
       itemName,
       issuedTo,
       issuedQty,
+      return:"Returnable",
     });
 
     // Update item status
@@ -145,16 +146,5 @@ export const getIssuedInventory = async (req, res) => {
   }
 };
 
-// // Delete Inventory Item
-// export const deleteInventoryItem = async (req, res) => {
-//   try {
-//     const { category, name, qty, threshold, status } = req.body;
 
-//     const inventoryCategory = await inventoryEntries.deleteMany({ category, name, qty, threshold, status});
-//     res.status(200).json({ message: "Inventory deleted successfully", deleteInventoryItem: item });
-//   } catch (error) {
-//     console.error("Error deleting inventory:", error);
-//     res.status(500).json({ error: "Internal Server Error" });
-//   }
-// };
 

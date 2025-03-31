@@ -4,6 +4,7 @@ const issuedItemSchema = new mongoose.Schema({
   itemName: String,
   issuedTo: String,
   issuedQty: Number,
+  return : String,
   issuedDate: { type: Date, default: Date.now },
 });
 
