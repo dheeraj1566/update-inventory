@@ -3,7 +3,7 @@ import { registerUser, loginUser, checkAuth } from "../controllers/userControlle
 
 const router = express.Router();
 
-router.post("/register", registerUser);
+router.post("/signup", registerUser);
 router.post("/login", loginUser);
 router.get("/checkToken", checkAuth)
 
