@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { v4 as uuidv4 } from "uuid"; 
+// import { v4 as uuidv4 } from "uuid"; 
 import inventoryEntries from "../models/inventoryEntries.js"; 
 import removedInventory from "../models/removedINV.js";
 
@@ -145,15 +145,11 @@ export const getIssuedInventory = async (req, res) => {
   }
 };
 
-<<<<<<< HEAD
-
-=======
 // removedInventoryIteam  //
 
 export const removeInventoryItem = async (req, res) => {
   try {
     const { category, itemName } = req.body;
->>>>>>> eff4b7117d1397dbdb57a5a04be56db3bff708c1
 
     if (!category || !itemName) {
       return res.status(400).json({ message: "Category and Item Name are required." });
