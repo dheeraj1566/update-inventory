@@ -10,7 +10,5 @@ router.post("/issue-inventory", issueInventory);
 router.get("/getIssuedInventory", getIssuedInventory);
 router.delete("/removeInventory", removeInventoryItem);
 
-
-
 export default router;
 

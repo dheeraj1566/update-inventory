@@ -4,7 +4,8 @@ import Instance from "../AxiosConfig";
 
 const InventoryTable = () => {
   const [inventory, setInventory] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [loading, setLoading] = useState(true); 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,21 +30,32 @@ const InventoryTable = () => {
         data: { category, itemName },
       });
       alert(response.data.message);
-      fetchInventory(); // Refresh inventory after deletion
+      fetchInventory();
     } catch (error) {
       console.error("Error deleting inventory item:", error);
       alert("Failed to delete item");
     }
   };
 
+  const filterTable = inventory.map((category) => ({...category, items: category.items.filter((item) =>
+        item.name.toLowerCase().includes(searchQuery.toLowerCase())),
+    }))
+    .filter((category) => category.items.length > 0 || category.category.toLowerCase().includes(searchQuery.toLowerCase()));
+
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4 text-black">Inventory List</h1>
-
       {loading ? (
         <p className="text-center">Loading...</p>
       ) : (
         <div className="overflow-x-auto">
+          <input
+            type="text"
+            placeholder="Search..."
+            className="border p-2 mb-4 w-full rounded-md text-black"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
           <table className="min-w-full border border-gray-300">
             <thead>
               <tr className="bg-gray-100">
@@ -57,19 +69,30 @@ const InventoryTable = () => {
               </tr>
             </thead>
             <tbody>
-              {inventory.map((categoryData, categoryIndex) =>
+              {filterTable.map((categoryData, categoryIndex) =>
                 categoryData.items.map((item, itemIndex) => (
-                  <tr key={`${categoryData._id}-${itemIndex}`} className="border">
+                  <tr
+                    key={`${categoryData._id}-${itemIndex}`}
+                    className="border"
+                  >
                     <td className="border px-4 py-2 text-black">
-                      {categoryIndex * categoryData.items.length + itemIndex + 1}
+                      {categoryIndex * categoryData.items.length +
+                        itemIndex +
+                        1}
                     </td>
-                    <td className="border px-4 py-2 text-black">{categoryData.category}</td>
+                    <td className="border px-4 py-2 text-black">
+                      {categoryData.category}
+                    </td>
                     <td className="border px-4 py-2 text-black">{item.name}</td>
                     <td className="border px-4 py-2 text-black">{item.qty}</td>
-                    <td className="border px-4 py-2 text-black">{item.threshold}</td>
+                    <td className="border px-4 py-2 text-black">
+                      {item.threshold}
+                    </td>
                     <td
                       className={`border px-4 py-2 ${
-                        item.status === "Available" ? "text-green-600" : "text-red-600"
+                        item.status === "Available"
+                          ? "text-green-600"
+                          : "text-red-600"
                       }`}
                     >
                       {item.status}
@@ -87,7 +110,9 @@ const InventoryTable = () => {
                       </button>
                       <button
                         className="bg-blue-800 text-white px-4 py-2 rounded-md"
-                        onClick={() => handleDelete(categoryData.category, item.name)}
+                        onClick={() =>
+                          handleDelete(categoryData.category, item.name)
+                        }
                       >
                         Delete
                       </button>

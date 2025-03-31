@@ -8,7 +8,7 @@ function IssueInventory() {
     category: "",
     itemName: "",
     issuedTo: "",
-    issuedQty: "",
+    issuedQty: "", 
   });
   const [issuedInventory, setIssuedInventory] = useState([]);
   const [loading, setLoading] = useState(false);
