@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { v4 as uuidv4 } from "uuid"; 
 import inventoryEntries from "../models/inventoryEntries.js"; 
-
+import removedInventory from "../models/removedINV.js";
 
 export const addInventory = async (req, res) => {
   try {
@@ -40,7 +40,6 @@ export const addInventory = async (req, res) => {
   }
 };
 
-
 export const getInventory = async (req, res) => {
   try {
     const inventoryList = await inventoryEntries.find();
@@ -58,7 +57,6 @@ export const updateInventoryItem = async (req, res) => {
     if (!category || !name) {
       return res.status(400).json({ error: "Category and Item Name are required." });
     }
-
     const inventoryCategory = await inventoryEntries.findOne({ category });
 
     if (!inventoryCategory) {
@@ -84,7 +82,8 @@ export const updateInventoryItem = async (req, res) => {
 };
 
 
-// Issued Inventory
+// issueInventroy
+
 export const issueInventory = async (req, res) => {
   try {
     const { category, itemName, issuedTo, issuedQty } = req.body;
@@ -109,17 +108,15 @@ export const issueInventory = async (req, res) => {
       return res.status(400).json({ message: "Not enough stock available" });
     }
 
-    // Deduct the issued quantity from stock
+
     item.qty -= issuedQty;
 
-    // Add issued record
     inventory.issuedItems.push({
       itemName,
       issuedTo,
       issuedQty,
     });
 
-    // Update item status
     item.status = item.qty > item.threshold ? "Available" : "Out of Stock";
 
     await inventory.save();
@@ -130,10 +127,12 @@ export const issueInventory = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
+// getIssuedInventory // 
 export const getIssuedInventory = async (req, res) => {
-  try {
+  try 
+  {
     const issuedInventory = await inventoryEntries.find({}, "category issuedItems");
-    
     if (!issuedInventory || issuedInventory.length === 0) {
       return res.status(404).json({ message: "No issued inventory found." });
     }
@@ -145,16 +144,42 @@ export const getIssuedInventory = async (req, res) => {
   }
 };
 
-// // Delete Inventory Item
-// export const deleteInventoryItem = async (req, res) => {
-//   try {
-//     const { category, name, qty, threshold, status } = req.body;
+// removedInventoryIteam  //
 
-//     const inventoryCategory = await inventoryEntries.deleteMany({ category, name, qty, threshold, status});
-//     res.status(200).json({ message: "Inventory deleted successfully", deleteInventoryItem: item });
-//   } catch (error) {
-//     console.error("Error deleting inventory:", error);
-//     res.status(500).json({ error: "Internal Server Error" });
-//   }
-// };
+export const removeInventoryItem = async (req, res) => {
+  try {
+    const { category, itemName } = req.body;
 
+    if (!category || !itemName) {
+      return res.status(400).json({ message: "Category and Item Name are required." });
+    }
+
+    const inventoryCategory = await inventoryEntries.findOne({ category });
+
+    if (!inventoryCategory) {
+      return res.status(404).json({ message: "Category not found." });
+    }
+
+    const itemIndex = inventoryCategory.items.findIndex((item) => item.name === itemName);
+
+  
+
+    const removedItem = inventoryCategory.items[itemIndex];
+
+    inventoryCategory.items.splice(itemIndex, 1);
+    await inventoryCategory.save();
+
+    const newRemovedItem = new removedInventory({
+      itemName: removedItem.name,
+      category: category,
+      qty: removedItem.qty,
+    });
+
+    await newRemovedItem.save();
+
+    res.status(200).json({ message: "Item removed successfully and stored in removed inventory!" });
+  } catch (error) {
+    console.error("Error removing inventory item:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
