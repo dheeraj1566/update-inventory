@@ -27,11 +27,6 @@ function Dashboard() {
               Issued Inventory
             </li>
           </Link>
-          <Link to="/threshold">
-            <li className="py-3 text-lg hover:font-bold text-blue-50 px-5 hover:bg-gray-50 hover:text-blue-900 border-black border-b-1">
-              Threshold
-            </li>
-          </Link>
           <Link to="/request">
             <li className="py-3 text-lg hover:font-bold hover:bg-gray-50 hover:text-blue-900 text-blue-50 px-5 border-black border-b-1">
               Request
@@ -53,6 +48,11 @@ function Dashboard() {
           <Link to="/report">
             <li className="py-3 text-lg hover:font-bold hover:bg-gray-50 hover:text-blue-900 text-blue-50 px-5 border-black border-b-1">
               Report
+            </li>
+          </Link>
+          <Link to="/threshold">
+            <li className="py-3 text-lg hover:font-bold hover:bg-gray-50 hover:text-blue-900 text-blue-50 px-5 border-black border-b-1">
+              Threshold
             </li>
           </Link>
           <li className="py-3 text-lg hover:font-bold hover:bg-gray-50 hover:text-blue-900 text-blue-50 px-5 my-3 border-black border-b-1"></li>

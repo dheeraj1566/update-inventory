@@ -5,15 +5,14 @@ import InventoryTable from "./pages/InventoryTable";
 import ChangeInventory from "./pages/ChangeInventory";
 import IssueInventory from "./pages/IssueInventory";
 import ReturnInventory from "./pages/ReturnInventory";
-// import DeleteInventory from "./pages/DeleteInventory.jsx";
 import Report from "./pages/Report";
 import Summary from "./pages/Summary";
 import ThreShold from "./pages/Threshold";
 import UserProfile from "./pages/UserProfile";
 import Login from "./pages/Login";
 import First from "./pages/First";
-import SignUp from "./pages/SignUp"
 import ProtectedRoute from "./components/ProtectedRouter";
+import Register from "./pages/SignUp.jsx";
 
 
 
@@ -23,7 +22,7 @@ const router = createBrowserRouter([
     element: <First />,
     children: [
       { path: "/login", element: <Login /> },
-      {path: "/signup",element: <SignUp />},
+      { path: "/signUp", element: <Register /> },
       {
         path: "/add-inventory",
         element: (
@@ -48,16 +47,6 @@ const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
-      // {
-      //   path: "/delete-inventory",
-      //   element: (
-      //     <ProtectedRoute>
-      //       <DeleteInventory />
-      //     </ProtectedRoute>
-      //   ),
-      // },
-
-
       {
         path: "/issue-inventory",
         element: (
@@ -106,7 +95,6 @@ const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
-     
     ],
   },
 ]);

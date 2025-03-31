@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 
-const SignUp = () => {
+const Register = () => {
   const [formData, setFormData] = useState({
     fname: "",
     lname: "",
@@ -19,7 +19,7 @@ const SignUp = () => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:5000/auth/signup",
+        "http://localhost:5000/auth/register",
         formData,
         {
           withCredentials: true,
@@ -34,18 +34,18 @@ const SignUp = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-6 bg-gray-100 rounded-lg shadow-md">
-        <h2 className="text-2xl font-semibold text-center text-black py-4">Register</h2>
-        {message && <p className="text-center text-red-500  mt-2">{message}</p>}
-        <form onSubmit={handleSubmit} className="space-y-4 text-black py-5">
-          <input 
+      <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
+        <h2 className="text-2xl font-semibold text-center">Register</h2>
+        {message && <p className="text-center text-red-500 mt-2">{message}</p>}
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
             type="text"
             name="fname"
             placeholder="First Name"
             value={formData.fname}
             onChange={handleChange}
             required
-            className="w-full p-2 py-5 border text-black rounded"
+            className="w-full p-2 border rounded"
           />
           <input
             type="text"
@@ -54,7 +54,7 @@ const SignUp = () => {
             value={formData.lname}
             onChange={handleChange}
             required
-            className="w-full p-2 border py-5 rounded"
+            className="w-full p-2 border rounded"
           />
           <input
             type="email"
@@ -63,7 +63,7 @@ const SignUp = () => {
             value={formData.email}
             onChange={handleChange}
             required
-            className="w-full p-2 border py-5 rounded"
+            className="w-full p-2 border rounded"
           />
           <input
             type="password"
@@ -72,13 +72,13 @@ const SignUp = () => {
             value={formData.password}
             onChange={handleChange}
             required
-            className="w-full p-2 border py-5 rounded"
+            className="w-full p-2 border rounded"
           />
           <button
             type="submit"
             className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
           >
-            Sign Up
+            Register
           </button>
         </form>
       </div>
@@ -86,4 +86,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default Register;
