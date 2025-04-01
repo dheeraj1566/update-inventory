@@ -63,9 +63,9 @@ function IssueInventory() {
       itemName,
       issuedTo,
       issuedQty,
-      return: isReturnable,
+      return : Returnable,
     } = formData;
-    if (!category || !itemName || !issuedTo || Number(issuedQty) <= 0) {
+    if (!category || !itemName || !issuedTo || Number(issuedQty ) <= 0) {
       alert("All fields are required, and quantity must be greater than zero.");
       return;
     }

@@ -4,7 +4,10 @@ const issuedItemSchema = new mongoose.Schema({
   itemName: String,
   issuedTo: String,
   issuedQty: Number,
-  return : String,
+  returnValue: {
+    type: String,
+    enum:["Returnable", "Non-Returnable"]
+  },
   issuedDate: { type: Date, default: Date.now },
 });
 
