@@ -17,7 +17,7 @@ function Login() {
 
       if (response.status === 200) {
         setIsAuthenticated(true);
-        navigate("/"); 
+        navigate("/inventory-table"); 
       }
     } catch (error) {
       console.error("Login error:", error.response?.data || error.message);
