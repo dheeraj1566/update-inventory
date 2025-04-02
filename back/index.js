@@ -13,9 +13,8 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 const corsOptions = {
-  // origin: process.env.FRONTEND_URL,
-  origin: `https://update-inventory-1.onrender.com`,
-  methods: "GET,POST,PUT,DELETE",
+  origin: process.env.FRONTEND_URL,
+  methods: ["GET","POST","PUT","DELETE"],
   credentials: true,
   optionsSuccessStatus: 200,
 };
