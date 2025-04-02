@@ -8,7 +8,7 @@ function IssueInventory() {
     category: "",
     itemName: "",
     issuedTo: "",
-    issuedQty: "", 
+    issuedQty: "",
     returnValue: "",
   });
   const [issuedInventory, setIssuedInventory] = useState([]);
@@ -58,6 +58,7 @@ function IssueInventory() {
   const handleIssueInventory = async (e) => {
     e.preventDefault();
 
+    console.log(formData);
     const {
       category,
       itemName,
@@ -147,13 +148,14 @@ function IssueInventory() {
                 required
               />
               <select
-                name="return"
+                name="returnValue"
                 value={formData.returnValue}
                 onChange={handleChange}
                 className="border-2 my-2 px-5 py-2 w-full text-black"
                 required
               >
-                <option value="Returnable">Returnable</option>
+                <option value="">Select Return Status</option>
+                <option value="Returnable">Returnable</option>  
                 <option value="Non-Returnable">Non-Returnable</option>
               </select>
             </div>

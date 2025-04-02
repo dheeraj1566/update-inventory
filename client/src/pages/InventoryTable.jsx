@@ -25,7 +25,7 @@ const InventoryTable = () => {
 
   const handleDelete = async (category, itemName) => {
     try {
-      const response = await Instance.delete("/add/delete-inventory", {
+      const response = await Instance.delete("/add/removeInventory", {
         data: { category, itemName },
       });
       alert(response.data.message);
