@@ -2,8 +2,6 @@ import express from "express";
 import {addInventory, getInventory, updateInventoryItem, issueInventory, getIssuedInventory, removeInventoryItem} from "../controllers/inventoryController.js";
 
 
-
-
 const router =express.Router();
 
 router.post("/inventory", addInventory);

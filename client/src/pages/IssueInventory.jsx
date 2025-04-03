@@ -7,7 +7,8 @@ function IssueInventory() {
   const [formData, setFormData] = useState({
     category: "",
     itemName: "",
-    issuedTo: "",
+    issuedToDept: "",
+    issuedToFaculty: "",
     issuedQty: "",
     returnValue: "",
   });
@@ -62,7 +63,8 @@ function IssueInventory() {
     const {
       category,
       itemName,
-      issuedTo,
+      issuedToDept,
+      issuedToFaculty,
       issuedQty,
       returnValue,
     } = formData;
@@ -79,7 +81,8 @@ function IssueInventory() {
         setFormData({
           category: categories[0] || "",
           itemName: "",
-          issuedTo: "",
+          issuedToDept: "",
+          issuedToFaculty:"",
           issuedQty: "",
           returnValue: "",
         });
@@ -128,11 +131,80 @@ function IssueInventory() {
                 className="border-2 my-2 px-5 py-2 w-full text-black"
                 required
               />
+                <select placeholder="Department Name"
+                name="issuedToDept"
+                value={formData.issuedToDept}
+                onChange={handleChange}
+                className="border-2 my-2 px-5 py-2 w-full text-black"
+                required
+              >
+                <option value="Department Name">Department Name</option>
+                <option value="Fashion & Textiles">Fashion & Textiles</option>
+                <option value="Jewellery Design">Jewellery Design</option>
+                 <option value="Fine Arts">Fine Arts</option>
+                <option value="Performing Arts">Performing Arts</option>
+                <option value="English Literature & Language">English Literature & Language</option>
+                <option value="Indian Literature & Languages (Hindi/Sanskrit)">Indian Literature & Languages (Hindi/Sanskrit)</option>
+                <option value="Foreign Literature & Languages (French/German)">Foreign Literature & Languages (French/German)</option>
+                <option value="Economics">Economics</option>
+                <option value="History & Indian Culture">History & Indian Culture</option>
+                <option value="Sociology & Social Work">Sociology & Social Work
+                </option>
+                <option value="Political Science and International Relations">Political Science and International Relations</option>
+                <option value="Public Administration">Public Administration</option>
+                <option value="Library & Information Science">Library & Information Science</option>
+                <option value="Psychology
+">Psychology
+                </option>
+                <option value="Clinical Psychology">Clinical Psychology</option>
+                <option value="Journalism and Mass Communication
+">Journalism and Mass Communication
+                </option>
+                <option value="Education">Education</option>
+                <option value="Physical Education
+">Physical Education
+                </option>
+                <option value="Zoology ">Zoology </option>
+                <option value="Botany
+">Botany
+</option>
+                <option value="Microbiology & Biotechnology">Microbiology & Biotechnology</option>
+                <option value="Environmental Science">Environmental Science</option>
+                <option value="Home Science">Home Science</option>
+                <option value="Physics
+">Physics
+                </option>
+                <option value="Chemistry">Chemistry</option>
+                <option value="Geography">Geography</option>
+                <option value="Mathematics">Mathematics</option>
+                <option value="Statistics
+">Statistics
+                </option>
+                <option value="Computer Science & Information Technology">Computer Science & Information Technology</option>
+                <option value="Accounting & Taxation
+">Accounting & Taxation
+                </option>
+                <option value="Business Studies
+">Business Studies
+                </option>
+                <option value="Financial Studies
+">Financial Studies
+                </option>
+                <option value="Tourism and Aviation
+">Tourism and Aviation
+                </option>
+                <option value="Management Studies
+">Management Studies
+                </option>
+              </select>
+
+
+
               <input
                 type="text"
-                name="issuedTo"
-                placeholder="Issued To"
-                value={formData.issuedTo}
+                name="issuedToFaculty"
+                placeholder="Faculty Name"
+                value={formData.issuedToFaculty}
                 onChange={handleChange}
                 className="border-2 my-2 px-5 py-2 w-full text-black"
                 required
@@ -174,7 +246,8 @@ function IssueInventory() {
                   setFormData({
                     category: categories[0] || "",
                     itemName: "",
-                    issuedTo: "",
+                    issuedToDept: "",
+                    issuedToFaculty:"",
                     issuedQty: "",
                     returnValue: "",
                   })
@@ -184,7 +257,9 @@ function IssueInventory() {
               </button>
             </div>
           </form>
-          <div className="mt-10 text-black">
+            </div>
+      </div>
+          <div className="mt-10 text-black p-10">
             <h2 className="text-xl font-bold text-blue-900">
               Issued Inventory List
             </h2>
@@ -196,7 +271,11 @@ function IssueInventory() {
                     Item Name
                   </th>
                   <th className="border border-blue-900 px-4 py-2">
-                    Issued To
+                    Department Name
+                  </th>
+
+                  <th className="border border-blue-900 px-4 py-2">
+                    Faculty Name
                   </th>
                   <th className="border border-blue-900 px-4 py-2">Quantity</th>
                   <th className="border border-blue-900 px-4 py-2">
@@ -220,7 +299,10 @@ function IssueInventory() {
                               {item.itemName}
                             </td>
                             <td className="border border-blue-900 px-4 py-2">
-                              {item.issuedTo}
+                              {item.issuedToDept}
+                            </td>
+                            <td className="border border-blue-900 px-4 py-2">
+                              {item.issuedToFaculty}
                             </td>
                             <td className="border border-blue-900 px-4 py-2">
                               {item.issuedQty}
@@ -242,8 +324,8 @@ function IssueInventory() {
               </tbody>
             </table>
           </div>
-        </div>
-      </div>
+        {/* </div>
+      </div> */}
     </div>
   );
 }

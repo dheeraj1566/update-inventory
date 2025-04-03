@@ -46,7 +46,7 @@ function AddInventory() {
                 Add Inventory
               </h1>
               <form onSubmit={handleAddInventory}>
-                <div className="input_inventory flex justify-center items-center gap-8 px-6 py-10">
+                {/* <div className="input_inventory flex justify-center items-center gap-8 px-6 py-10"> */}
                   <div className="inventory_name font-bold">
                     <label className="" for="item_name">
                       Inventory Name
