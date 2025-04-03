@@ -7,22 +7,25 @@ import Instance from "../AxiosConfig";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const { setIsAuthenticated } = useAuth();
   const navigate = useNavigate();
 
-  
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const response = await Instance.post("/auth/login", { email, password });
 
       if (response.status === 200) {
         setIsAuthenticated(true);
-        navigate("/inventory-table"); 
+        navigate("/inventory-table");
       }
     } catch (error) {
       console.error("Login error:", error.response?.data || error.message);
       alert("Invalid email or password!");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -46,6 +49,7 @@ function Login() {
               onChange={(e) => setEmail(e.target.value)}
               className="bg-blue-200 px-4 w-full py-3 text-black rounded-lg focus:outline-none"
               required
+              disabled={loading}
             />
           </div>
 
@@ -58,17 +62,25 @@ function Login() {
               onChange={(e) => setPassword(e.target.value)}
               className="bg-blue-200 px-4 w-full py-3 rounded-lg focus:outline-none"
               required
+              disabled={loading}
             />
           </div>
 
-          <button type="submit" className="bg-blue-400 text-white w-full rounded-3xl py-3 hover:bg-blue-500 transition">
-            Login
+          <button
+            type="submit"
+            className="bg-blue-400 text-white w-full rounded-3xl py-3 hover:bg-blue-500 transition"
+            disabled={loading}
+          >
+            {loading ? "Logging in..." : "Login"}
           </button>
         </form>
 
         <p className="text-blue-900 my-3">Don't have an account?</p>
         <Link to="/signUp">
-          <button className="bg-blue-900 text-white w-full rounded-3xl py-3 hover:bg-blue-950 transition">
+          <button
+            className="bg-blue-900 text-white w-full rounded-3xl py-3 hover:bg-blue-950 transition"
+            disabled={loading}
+          >
             Sign Up
           </button>
         </Link>
