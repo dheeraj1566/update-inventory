@@ -36,7 +36,6 @@ const InventoryTable = () => {
       alert("Failed to delete item");
     }
   };
-
   const filteredInventory = inventory
     .map((category) => ({
       ...category,
@@ -49,7 +48,6 @@ const InventoryTable = () => {
         category.items.length > 0 ||
         category.category.toLowerCase().includes(searchQuery.toLowerCase())
     );
-
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4 text-center text-black">
@@ -63,7 +61,33 @@ const InventoryTable = () => {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="border border-gray-400 rounded-md px-4 py-2 text-black w-full md:w-1/2"
+
         />
+
+        {/* Category Dropdown */}
+        <select
+          value={selectedCategory}
+          onChange={(e) => setSelectedCategory(e.target.value)}
+          className="border border-gray-400 rounded-md px-4 py-2 text-black w-full md:w-1/4"
+        >
+          <option value="">All Categories</option>
+          {uniqueCategories.map((category) => (
+            <option key={category} value={category}>
+              {category}
+            </option>
+          ))}
+        </select>
+
+        {/* Status Dropdown */}
+        <select
+          value={selectedStatus}
+          onChange={(e) => setSelectedStatus(e.target.value)}
+          className="border border-gray-400 rounded-md px-4 py-2 text-black w-full md:w-1/4"
+        >
+          <option value="">All Status</option>
+          <option value="Available">Available</option>
+          <option value="Unavailable">Out of Stock</option>
+        </select>
       </div>
 
       {loading ? (

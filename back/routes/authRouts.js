@@ -9,4 +9,5 @@ router.post("/login", loginUser);
 router.get("/checkToken", checkAuth);
 router.post("/logout",userLogOut);
 
+
 export default router;

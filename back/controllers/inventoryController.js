@@ -91,6 +91,7 @@ export const updateInventoryItem = async (req, res) => {
 
 export const issueInventory = async (req, res) => {
   try {
+
     const { category, itemName, issuedTo, issuedQty, returnValue } = req.body;
 
     console.log(req.body);
@@ -125,7 +126,8 @@ export const issueInventory = async (req, res) => {
 
     inventory.issuedItems.push({
       itemName,
-      issuedTo,
+      issuedToDept,
+      issuedToFaculty,
       issuedQty,
       returnValue,
     });

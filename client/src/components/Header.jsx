@@ -23,16 +23,10 @@ function Header() {
 
   return (
     <div className="right_side w-5/5">
-      <div className="nav_bar bg-blue-100 w-full h-19 py-5 px-5 flex items-center justify-between">
+      <div className="nav_bar  w-full h-19 py-5 px-5 flex items-center justify-between">
         {/* Search Bar */}
-        <div className="search_bar rounded-4xl bg-gray-100 w-5/6 h-12 px-15 py-5 mx-35 flex justify-start items-center">
-          <CiSearch className="text-2xl text-black" />
-          <input
-            className="border-none px-3 text-black"
-            type="text"
-            id="search"
-            placeholder="Search Inventory"
-          />
+        <div className="search_bar rounded-4xl  text-3xl font-bold text-blue-900 w-5/6 h-12 px-5 py-5 mx-30 flex justify-start items-center">
+         Inventory Management System 
         </div>
 
         <div className="notification_btn text-black text-3xl px-2 py-2 rounded-full mx-3">
