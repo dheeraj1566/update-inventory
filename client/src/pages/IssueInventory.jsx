@@ -10,7 +10,7 @@ function IssueInventory() {
     issuedToDept: "",
     issuedToFaculty: "",
     issuedQty: "",
-    returnStatus:"Returnable",
+    returnValue: "",
   });
   const [issuedInventory, setIssuedInventory] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -59,15 +59,16 @@ function IssueInventory() {
   const handleIssueInventory = async (e) => {
     e.preventDefault();
 
+    console.log(formData);
     const {
       category,
       itemName,
       issuedToDept,
       issuedToFaculty,
       issuedQty,
-      returnStatus,
+      returnValue,
     } = formData;
-    if (!category || !itemName || !issuedToDept || !issuedToFaculty  || Number(issuedQty) <= 0) {
+    if (!category || !itemName || !issuedTo || Number(issuedQty || !returnValue) <= 0) {
       alert("All fields are required, and quantity must be greater than zero.");
       return;
     }
@@ -83,7 +84,7 @@ function IssueInventory() {
           issuedToDept: "",
           issuedToFaculty:"",
           issuedQty: "",
-          returnStatus: "",
+          returnValue: "",
         });
         navigate("/issue-inventory");
       }
@@ -219,14 +220,15 @@ function IssueInventory() {
                 required
               />
               <select
-                name="returnStatus"
-                value={formData.returnStatus}
+                name="returnValue"
+                value={formData.returnValue}
                 onChange={handleChange}
                 className="border-2 my-2 px-5 py-2 w-full text-black"
                 required
               >
-                <option value="Returnable">Returnable</option>
-                <option value="Non Returnable">Non-Returnable</option>
+                <option value="">Select Return Status</option>
+                <option value="Returnable">Returnable</option>  
+                <option value="Non-Returnable">Non-Returnable</option>
               </select>
             </div>
             <div className="flex justify-center items-center">
@@ -247,7 +249,7 @@ function IssueInventory() {
                     issuedToDept: "",
                     issuedToFaculty:"",
                     issuedQty: "",
-                    returnStatus: "",
+                    returnValue: "",
                   })
                 }
               >
@@ -306,7 +308,7 @@ function IssueInventory() {
                               {item.issuedQty}
                             </td>
                             <td className="border border-blue-900 px-4 py-2">
-                              {item.returnStatus}
+                              {item.returnValue}
                             </td>
                           </tr>
                         ))

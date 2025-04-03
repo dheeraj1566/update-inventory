@@ -4,10 +4,9 @@ import { registerUser, loginUser, checkAuth ,userLogOut} from "../controllers/us
 
 const router = express.Router();
 
-router.post("/register", registerUser);
-router.post("/login", loginUser);
+router.post("/faculty-register", registerUser);
+router.post("/facultylogin", loginUser);
 router.get("/checkToken", checkAuth);
-router.post("/logout",userLogOut);
-
+router.get("/faculty-logout",userLogOut);
 
 export default router;

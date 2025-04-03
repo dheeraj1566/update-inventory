@@ -7,25 +7,23 @@ import Instance from "../AxiosConfig";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const { setIsAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setError("");
     setLoading(true);
-
     try {
       const response = await Instance.post("/auth/login", { email, password });
 
       if (response.status === 200) {
         setIsAuthenticated(true);
-        navigate("/");
+        navigate("/inventory-table");
       }
     } catch (error) {
-      setError("Invalid email or password!");
+      console.error("Login error:", error.response?.data || error.message);
+      alert("Invalid email or password!");
     } finally {
       setLoading(false);
     }
@@ -62,7 +60,7 @@ function Login() {
               onChange={(e) => setEmail(e.target.value)}
               className="bg-gray-300 px-2 py-1 text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600"
               required
-              aria-label="Email"
+              disabled={loading}
             />
           </div>
           <div className="flex flex-col text-left">
@@ -77,17 +75,27 @@ function Login() {
               onChange={(e) => setPassword(e.target.value)}
               className="bg-gray-300 px-2 py-1 text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600"
               required
-              aria-label="Password"
+              disabled={loading}
             />
           </div>
+
           <button
             type="submit"
-            className="bg-blue-700 text-white w-full rounded-md py-2 mt-4 hover:bg-blue-800 transition disabled:opacity-50 disabled:cursor-not-allowed"
+            className="bg-blue-400 text-white w-full rounded-3xl py-3 hover:bg-blue-500 transition"
             disabled={loading}
           >
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
+        <p className="text-blue-900 my-3">Don't have an account?</p>
+        <Link to="/signUp">
+          <button
+            className="bg-blue-900 text-white w-full rounded-3xl py-3 hover:bg-blue-950 transition"
+            disabled={loading}
+          >
+            Sign Up
+          </button>
+        </Link>
       </div>
     </div>
   );

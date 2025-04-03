@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import { v4 as uuidv4 } from "uuid"; 
-import inventoryEntries from "../models/inventoryEntries.js"; 
+// import { v4 as uuidv4 } from "uuid";
+import inventoryEntries from "../models/inventoryEntries.js";
 import removedInventory from "../models/removedINV.js";
 
 export const addInventory = async (req, res) => {
@@ -16,23 +16,23 @@ export const addInventory = async (req, res) => {
     let existingCategory = await inventoryEntries.findOne({ category });
 
     if (existingCategory) {
-
       await inventoryEntries.updateOne(
-        { category }, 
-        { 
-          $push: { items: { name, qty, threshold, status } }
+        { category },
+        {
+          $push: { items: { name, qty, threshold, status } },
         }
       );
       res.status(200).json({ message: "Item added to existing category" });
     } else {
-
       const newCategory = new inventoryEntries({
         category,
         items: [{ name, qty, threshold, status }],
       });
 
       await newCategory.save();
-      res.status(201).json({ message: "New category created with item", newCategory });
+      res
+        .status(201)
+        .json({ message: "New category created with item", newCategory });
     }
   } catch (error) {
     console.error("Error in addInventory:", error);
@@ -55,7 +55,9 @@ export const updateInventoryItem = async (req, res) => {
     const { category, name, qty, threshold, status } = req.body;
 
     if (!category || !name) {
-      return res.status(400).json({ error: "Category and Item Name are required." });
+      return res
+        .status(400)
+        .json({ error: "Category and Item Name are required." });
     }
     const inventoryCategory = await inventoryEntries.findOne({ category });
 
@@ -66,7 +68,9 @@ export const updateInventoryItem = async (req, res) => {
     const item = inventoryCategory.items.find((item) => item.name === name);
 
     if (!item) {
-      return res.status(404).json({ error: "Item not found in this category." });
+      return res
+        .status(404)
+        .json({ error: "Item not found in this category." });
     }
 
     item.qty = qty;
@@ -74,21 +78,31 @@ export const updateInventoryItem = async (req, res) => {
     item.status = status;
 
     await inventoryCategory.save();
-    res.status(200).json({ message: "Inventory updated successfully", updatedItem: item });
+    res
+      .status(200)
+      .json({ message: "Inventory updated successfully", updatedItem: item });
   } catch (error) {
     console.error("Error updating inventory:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
-
 // issueInventroy
 
 export const issueInventory = async (req, res) => {
   try {
-    const { category, itemName, issuedToDept, issuedToFaculty,issuedQty , returnStatus } = req.body;
 
-    if (!category || !itemName || !issuedToDept || !issuedToFaculty || issuedQty === undefined || !returnStatus) {
+    const { category, itemName, issuedTo, issuedQty, returnValue } = req.body;
+
+    console.log(req.body);
+
+    if (
+      !category ||
+      !itemName ||
+      !issuedTo ||
+      issuedQty === undefined ||
+      !returnValue
+    ) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
@@ -108,7 +122,6 @@ export const issueInventory = async (req, res) => {
       return res.status(400).json({ message: "Not enough stock available" });
     }
 
-
     item.qty -= issuedQty;
 
     inventory.issuedItems.push({
@@ -116,11 +129,10 @@ export const issueInventory = async (req, res) => {
       issuedToDept,
       issuedToFaculty,
       issuedQty,
-      returnStatus
+      returnValue,
     });
 
     item.status = item.qty > item.threshold ? "Available" : "Out of Stock";
-
     await inventory.save();
 
     res.status(200).json({ message: "Item issued successfully!", inventory });
@@ -130,11 +142,13 @@ export const issueInventory = async (req, res) => {
   }
 };
 
-// getIssuedInventory // 
+// getIssuedInventory //
 export const getIssuedInventory = async (req, res) => {
-  try 
-  {
-    const issuedInventory = await inventoryEntries.find({}, "category issuedItems");
+  try {
+    const issuedInventory = await inventoryEntries.find(
+      {},
+      "category issuedItems"
+    );
     if (!issuedInventory || issuedInventory.length === 0) {
       return res.status(404).json({ message: "No issued inventory found." });
     }
@@ -152,9 +166,10 @@ export const removeInventoryItem = async (req, res) => {
   try {
     const { category, itemName } = req.body;
 
-
     if (!category || !itemName) {
-      return res.status(400).json({ message: "Category and Item Name are required." });
+      return res
+        .status(400)
+        .json({ message: "Category and Item Name are required." });
     }
 
     const inventoryCategory = await inventoryEntries.findOne({ category });
@@ -163,9 +178,9 @@ export const removeInventoryItem = async (req, res) => {
       return res.status(404).json({ message: "Category not found." });
     }
 
-    const itemIndex = inventoryCategory.items.findIndex((item) => item.name === itemName);
-
-  
+    const itemIndex = inventoryCategory.items.findIndex(
+      (item) => item.name === itemName
+    );
 
     const removedItem = inventoryCategory.items[itemIndex];
 
@@ -180,7 +195,9 @@ export const removeInventoryItem = async (req, res) => {
 
     await newRemovedItem.save();
 
-    res.status(200).json({ message: "Item removed successfully and stored in removed inventory!" });
+    res.status(200).json({
+      message: "Item removed successfully and stored in removed inventory!",
+    });
   } catch (error) {
     console.error("Error removing inventory item:", error);
     res.status(500).json({ message: "Server error", error: error.message });
