@@ -5,6 +5,7 @@ import Instance from "../AxiosConfig";
 const InventoryTable = () => {
   const [inventory, setInventory] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("")
   const [loading, setLoading] = useState(true);
   const serialNumber = useRef(1);
   const navigate = useNavigate();
