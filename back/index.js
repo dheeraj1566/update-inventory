@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/authRouts.js";
+import facultyAuth from "./routes/facultyAuth.js";
 import inventoryRoutes from "./routes/inventoryRoutes.js";
 
 
@@ -24,6 +25,7 @@ app.use(cookieParser());
 app.use(express.json());
 
 app.use("/auth", authRoutes);
+app.use("/facultyauth", facultyAuth)
 app.use("/add", inventoryRoutes);
 
 
