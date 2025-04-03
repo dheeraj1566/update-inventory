@@ -5,7 +5,8 @@ import jwt from "jsonwebtoken";
 // Register Faculty  
 export const registerFaculty = async (req, res) => {  
   try {  
-    const { fname, lname, email, password } = req.body;  
+    const { fname, lname, email, password } = req.body; 
+    console.log(req.body);
 
     if (!fname || !lname || !email || !password) {  
       return res.status(400).json({ message: "All fields are required" });  
