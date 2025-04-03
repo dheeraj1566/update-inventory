@@ -2,9 +2,13 @@ import mongoose from "mongoose";
 
 const issuedItemSchema = new mongoose.Schema({
   itemName: String,
-  issuedTo: String,
+  issuedToDept: String,
   issuedQty: Number,
-  return : String,
+  returnStatus : {
+    type: String,
+    enum: ["Returnable", "Non Returnable"],
+  },
+  issuedToFaculty:String,
   issuedDate: { type: Date, default: Date.now },
 });
 
@@ -16,6 +20,7 @@ const itemSchema = new mongoose.Schema({
     type: String,
     enum: ["Available", "Out of Stock"],
   },
+ 
 });
 
 const inventorySchema = new mongoose.Schema({

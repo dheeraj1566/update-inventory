@@ -69,7 +69,4 @@ export const userLogOut = async (req, res) => {
   res.json({message:'User logged out'})
   res.status(200).json({message:"user log out successfully"})
 };
-<<<<<<< HEAD
-=======
 
->>>>>>> eff4b7117d1397dbdb57a5a04be56db3bff708c1

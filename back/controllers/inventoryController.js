@@ -86,9 +86,9 @@ export const updateInventoryItem = async (req, res) => {
 
 export const issueInventory = async (req, res) => {
   try {
-    const { category, itemName, issuedTo, issuedQty , return:isReturnable} = req.body;
+    const { category, itemName, issuedToDept, issuedToFaculty,issuedQty , returnStatus } = req.body;
 
-    if (!category || !itemName || !issuedTo || issuedQty === undefined) {
+    if (!category || !itemName || !issuedToDept || !issuedToFaculty || issuedQty === undefined || !returnStatus) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
@@ -113,9 +113,10 @@ export const issueInventory = async (req, res) => {
 
     inventory.issuedItems.push({
       itemName,
-      issuedTo,
+      issuedToDept,
+      issuedToFaculty,
       issuedQty,
-      return:"Returnable",
+      returnStatus
     });
 
     item.status = item.qty > item.threshold ? "Available" : "Out of Stock";
@@ -145,15 +146,12 @@ export const getIssuedInventory = async (req, res) => {
   }
 };
 
-<<<<<<< HEAD
-
-=======
 // removedInventoryIteam  //
 
 export const removeInventoryItem = async (req, res) => {
   try {
     const { category, itemName } = req.body;
->>>>>>> eff4b7117d1397dbdb57a5a04be56db3bff708c1
+
 
     if (!category || !itemName) {
       return res.status(400).json({ message: "Category and Item Name are required." });
