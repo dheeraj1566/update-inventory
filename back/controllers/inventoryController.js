@@ -86,7 +86,7 @@ export const updateInventoryItem = async (req, res) => {
 
 export const issueInventory = async (req, res) => {
   try {
-    const { category, itemName, issuedTo, issuedQty , return:isReturnable} = req.body;
+    const { category, itemName, issuedTo, issuedQty , returnable} = req.body;
 
     if (!category || !itemName || !issuedTo || issuedQty === undefined) {
       return res.status(400).json({ message: "All fields are required" });
@@ -115,7 +115,7 @@ export const issueInventory = async (req, res) => {
       itemName,
       issuedTo,
       issuedQty,
-      return:"Returnable",
+      returnable,
     });
 
     item.status = item.qty > item.threshold ? "Available" : "Out of Stock";

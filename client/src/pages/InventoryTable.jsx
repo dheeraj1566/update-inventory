@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState ,useRef} from "react";
 import { useNavigate } from "react-router-dom";
 import Instance from "../AxiosConfig";
 
@@ -6,6 +6,7 @@ const InventoryTable = () => {
   const [inventory, setInventory] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
+  const slno=useRef(1);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -25,7 +26,7 @@ const InventoryTable = () => {
 
   const handleDelete = async (category, itemName) => {
     try {
-      const response = await Instance.delete("/add/delete-inventory", {
+      const response = await Instance.delete("/add/removeInventory", {
         data: { category, itemName },
       });
       alert(response.data.message);
@@ -60,7 +61,7 @@ const InventoryTable = () => {
       </div>
 
       {loading ? (
-        <p className="text-center">Loading...</p>
+        <p className="text-center text-black">Loading...</p>
       ) : (
         <div className="overflow-x-auto">
           <table className="min-w-full border border-gray-300">
@@ -80,7 +81,7 @@ const InventoryTable = () => {
                 categoryData.items.map((item, itemIndex) => (
                   <tr key={`${categoryData._id}-${itemIndex}`} className="border">
                     <td className="border px-4 py-2 text-black">
-                      {categoryIndex * categoryData.items.length + itemIndex + 1}
+                      {slno.current++}
                     </td>
                     <td className="border px-4 py-2 text-black">{categoryData.category}</td>
                     <td className="border px-4 py-2 text-black">{item.name}</td>

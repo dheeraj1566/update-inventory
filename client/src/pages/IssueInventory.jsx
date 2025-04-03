@@ -9,7 +9,7 @@ function IssueInventory() {
     itemName: "",
     issuedTo: "",
     issuedQty: "", 
-    return: "",
+    returnable: "",
   });
   const [issuedInventory, setIssuedInventory] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -63,7 +63,7 @@ function IssueInventory() {
       itemName,
       issuedTo,
       issuedQty,
-      return: isReturnable,
+      returnable:isReturnable,
     } = formData;
     if (!category || !itemName || !issuedTo || Number(issuedQty) <= 0) {
       alert("All fields are required, and quantity must be greater than zero.");
@@ -80,12 +80,12 @@ function IssueInventory() {
           itemName: "",
           issuedTo: "",
           issuedQty: "",
-          return: "",
+          returnable: "",
         });
         navigate("/issue-inventory");
       }
     } catch (error) {
-      console.error(
+      console.log(
         "Issued Inventory error:",
         error.response?.data || error.message
       );
@@ -147,8 +147,8 @@ function IssueInventory() {
                 required
               />
               <select
-                name="return"
-                value={formData.return}
+                name="returnable"
+                value={formData.returnable}
                 onChange={handleChange}
                 className="border-2 my-2 px-5 py-2 w-full text-black"
                 required
@@ -174,7 +174,7 @@ function IssueInventory() {
                     itemName: "",
                     issuedTo: "",
                     issuedQty: "",
-                    return: "",
+                    returnable: ""
                   })
                 }
               >
@@ -224,7 +224,7 @@ function IssueInventory() {
                               {item.issuedQty}
                             </td>
                             <td className="border border-blue-900 px-4 py-2">
-                              {item.return}
+                              {item.returnable}
                             </td>
                           </tr>
                         ))
