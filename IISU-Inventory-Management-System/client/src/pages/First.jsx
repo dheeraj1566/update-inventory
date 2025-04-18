@@ -1,6 +1,7 @@
 import { useAuth } from "../context/AuthContext";
 import Header from "../components/Header";
 import Dashboard from "../components/Dashboard";
+import FacultyDashboard from "../components/FacultyDashboard";
 import Login from "../pages/Login";
 import { Outlet } from "react-router-dom";
 
@@ -12,11 +13,14 @@ function First() {
   }
 
   return (
-    <div className="flex min-h-screen bg-white-100">
-      <Dashboard />
-      <main className="min-h-screen w-full bg-gray-300">
+    <div className="flex min-h-screen bg-white-100 relative">
+      <div className="min-h-screen w-1/6">
+      <FacultyDashboard />
+      {/* {<Dashboard /> } */}
+        </div>
+      <main className="min-h-screen w-full bg-gray-100">
         <Header />
-        <Outlet />
+        <Outlet/>
       </main>
     </div>
   );

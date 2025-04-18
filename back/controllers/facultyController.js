@@ -66,7 +66,7 @@ export const loginFaculty = async (req, res) => {
 };  
 
 // Check Auth Token  
-export const checkFacultyAuth = async (req, res) => {  
+export const checkFaculty = async (req, res) => {  
   try {  
     const token = req.cookies.facultyToken;  
     if (!token) {  
