@@ -12,7 +12,7 @@ export function AuthProvider({ children }) {
 
   const checkAuth = async () => {
     try {
-      const res = await Instance.get("/auth/checkToken");
+      const res = await Instance.get("/auth/checkToken", {withCredentials: true});
       if (res.status === 200) {
         setIsAuthenticated(true);
       }

@@ -14,7 +14,7 @@ function ProtectedRoute({ children }) {
   async function checkForToken() {
     try {
       setLoading(true);
-      const response = await Instance.get("/auth/checkToken");
+      const response = await Instance.get("/auth/checkToken", { withCredentials: true });
       if (response.status === 200) {
         setIsAuthenticated(true);
         setLoading(false);
@@ -28,7 +28,7 @@ function ProtectedRoute({ children }) {
     }
   }
   if (loading) return <div id="">LOADING...</div>;
-  
+
   return isAuthenticated ? children : <Navigate to="/login" replace />;
 }
 

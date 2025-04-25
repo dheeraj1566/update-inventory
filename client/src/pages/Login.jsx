@@ -15,7 +15,7 @@ function Login() {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await Instance.post("/auth/login", { email, password });
+      const response = await Instance.post("/auth/login", { email, password },{withCredentials: true});
 
       if (response.status === 200) {
         setIsAuthenticated(true);

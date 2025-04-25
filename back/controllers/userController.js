@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import usermodel from "../models/usermodel.js";
+import { authMiddleware } from "../middlewares/authMiddleware.js";
 
 export const registerUser = async (req, res) => {
   try {
@@ -39,7 +40,7 @@ export const loginUser = async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true, 
       secure: process.env.NODE_ENV === "production", 
-      sameSite: "none",
+      sameSite: "strict",
       maxAge: 2 * 60 * 60 * 1000, 
     });
 
