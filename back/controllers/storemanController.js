@@ -65,7 +65,7 @@ export const registerStoreman = async (req, res) => {
 // };
 
 export const storemanLogOut = async (req, res) => {
-  res.clearCookie('storemanToken');
+  res.clearCookie('token');
   res.json({message:'User logged out'})
   res.status(200).json({message:"user log out successfully"})
 };

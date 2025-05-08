@@ -8,6 +8,7 @@ import {adminLogOut} from "../controllers/adminController.js"
 const router = express.Router();
 router.post("/login", loginUser);
 router.get("/checkToken", checkAuth);
+// router.post("/logout",userLogOut);
 router.post("/logout",facultyLogOut);
 router.post("/logout",accountantLogOut);
 router.post("/logout",storemanLogOut);

@@ -1,23 +1,31 @@
 import inventoryEntries from "../models/inventoryEntries.js";
 import removedInventory from "../models/removedINV.js";
-import {uploadToCloudinary} from "../services/Cloudinary.js";
+import { uploadToCloudinary } from "../services/Cloudinary.js";
 
 export const addInventory = async (req, res) => {
   try {
     const { name, category, qty, threshold } = req.body;
+    
     if (!name || !category || qty === undefined || threshold === undefined) {
       return res.status(400).json({ message: "All fields are required" });
     }
+
     let billImageUrl = null;
+    
     if (req.file) {
       try {
         billImageUrl = await uploadToCloudinary(req);
       } catch (uploadError) {
-        return res.status(500).json({ message: "Error uploading image", error: uploadError.message });
+        console.error("Cloudinary upload error:", uploadError);
       }
     }
+
     const status =
-      qty === 0 ? "Out of Stock" : qty < threshold ? "Low Stock" : "Available";
+      parseInt(qty) === 0 
+        ? "Out of Stock" 
+        : parseInt(qty) < parseInt(threshold) 
+          ? "Low Stock" 
+          : "Available";
 
     let existingCategory = await inventoryEntries.findOne({ category });
 
@@ -25,14 +33,28 @@ export const addInventory = async (req, res) => {
       await inventoryEntries.updateOne(
         { category },
         {
-          $push: { items: { name, qty, threshold, status, billImage: billImageUrl } },
+          $push: { 
+            items: { 
+              name, 
+              qty: parseInt(qty), 
+              threshold: parseInt(threshold), 
+              status, 
+              billImage: billImageUrl 
+            } 
+          },
         }
       );
       res.status(200).json({ message: "Item added to existing category" });
     } else {
       const newCategory = new inventoryEntries({
         category,
-        items: [{ name, qty, threshold, status, billImage: billImageUrl }],
+        items: [{ 
+          name, 
+          qty: parseInt(qty), 
+          threshold: parseInt(threshold), 
+          status,
+          billImage: billImageUrl
+        }]
       });
 
       await newCategory.save();
@@ -69,15 +91,13 @@ export const purchaseInventory = async (req, res) => {
       threshold
     } = req.body;
 
-    if (!req.file) {
-      return res.status(400).json({ message: "Bill image is required" });
-    }
-
-    let billUrl;
-    try {
-      billUrl = await uploadToCloudinary(req);
-    } catch (uploadError) {
-      return res.status(500).json({ message: "Error uploading bill image", error: uploadError.message });
+    let billUrl = null;
+    if (req.file) {
+      try {
+        billUrl = await uploadToCloudinary(req);
+      } catch (uploadError) {
+        console.error("Cloudinary upload error:", uploadError);
+      }
     }
 
     let inventory = await inventoryEntries.findOne({ category });
@@ -90,16 +110,20 @@ export const purchaseInventory = async (req, res) => {
 
     if (item) {
       const newQty = item.qty + parseInt(purchaseQty);
-      const status = newQty === 0 ? "Out of Stock" : newQty < item.threshold ? "Low Stock" : "Available";
+      const status = newQty === 0 
+        ? "Out of Stock" 
+        : newQty < item.threshold 
+          ? "Low Stock" 
+          : "Available";
 
       const purchaseItem = {
         billNo,
         partyName,
         billDate,
         billAmount,
-        purchaseQty,
+        purchaseQty: parseInt(purchaseQty),
         qty: newQty,
-        pricePerUnit,
+        pricePerUnit: parseFloat(pricePerUnit),
         status,
         bill: billUrl,
       };
@@ -113,13 +137,13 @@ export const purchaseInventory = async (req, res) => {
       const newItem = {
         name: itemName,
         qty: parseInt(purchaseQty),
-        threshold: parseInt(threshold),
+        threshold: parseInt(threshold || 5), 
         status:
           parseInt(purchaseQty) === 0
             ? "Out of Stock"
-            : parseInt(purchaseQty) < parseInt(threshold)
-            ? "Low Stock"
-            : "Available",
+            : parseInt(purchaseQty) < parseInt(threshold || 5)
+              ? "Low Stock"
+              : "Available",
         pricePerUnit: parseFloat(pricePerUnit),
         purchaseItems: [
           {
@@ -127,15 +151,15 @@ export const purchaseInventory = async (req, res) => {
             partyName,
             billDate,
             billAmount,
-            purchaseQty,
+            purchaseQty: parseInt(purchaseQty),
             qty: parseInt(purchaseQty),
-            pricePerUnit,
+            pricePerUnit: parseFloat(pricePerUnit),
             status:
               parseInt(purchaseQty) === 0
                 ? "Out of Stock"
-                : parseInt(purchaseQty) < parseInt(threshold)
-                ? "Low Stock"
-                : "Available",
+                : parseInt(purchaseQty) < parseInt(threshold || 5)
+                  ? "Low Stock"
+                  : "Available",
             bill: billUrl,
           },
         ],
@@ -201,7 +225,7 @@ export const requestInventoryFaculty = async (req, res) => {
       requestQty,
       returnStatus,
       requestByFaculty,
-      requestDate: Date.now(), 
+      requestDate: Date.now(), // Assuming you want to set the current date
       requireDate,
       requireDate,
       requestReason,
