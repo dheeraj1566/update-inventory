@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 
-const Register = () => {
+const SignUp = () => {
   const [formData, setFormData] = useState({
     fname: "",
     lname: "",
@@ -86,4 +86,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default SignUp;

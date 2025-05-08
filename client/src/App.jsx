@@ -1,20 +1,33 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext"; 
-import AddInventory from "./pages/AddInventory.jsx";
+import AddNewInventory from "./pages/AddNewInventory.jsx";
+// import AddNewInventory from "./pages/AddInventory.jsx";
+import RestockInventory from "./pages/RestockInventory.jsx";
 import InventoryTable from "./pages/InventoryTable";
 import ChangeInventory from "./pages/ChangeInventory";
 import IssueInventory from "./pages/IssueInventory";
-import ReturnInventory from "./pages/ReturnInventory";
+import IssueInventoryTable from "./pages/IssueInventoryTable.jsx";
+import ReturnInventory from "./pages/FacultyReturnInventory.jsx";
+import FacultyRequestInventory from "./pages/FacultyRequestInventory.jsx";
+import RequestInventoryTable from "./pages/RequestInventoryTable.jsx";
+import FacultyReturnInventory from "./pages/FacultyReturnInventory.jsx";
 import Report from "./pages/Report";
 import Summary from "./pages/Summary";
 import ThreShold from "./pages/Threshold";
-import UserProfile from "./pages/UserProfile";
 import Login from "./pages/Login";
 import First from "./pages/First";
 import ProtectedRoute from "./components/ProtectedRouter";
-import Register from "./pages/SignUp.jsx";
-
-
+import SignUp from "./pages/SignUp.jsx";
+import Notify from "./pages/Notify.jsx";
+import PurchaseTable from "./pages/PurchaseTable.jsx";
+import FacultyRequestInventoryTable from "./pages/FacultyRequestInventoryTable.jsx";
+import FacultyIssueInventoryTable from "./pages/FacultyIssueInventoryTable.jsx";
+import FacultyViewRequestTable from "./pages/FacultyViewRequestTable.jsx";
+import FacultyNotification from "./pages/FacultyNotification.jsx";
+import PurchaseInventoryTable from "./pages/PurchaseInventoryTable .jsx";
+import AdminRequestTable from "./pages/AdminRequestTable.jsx";
+import AdminNotifications from "./pages/AdminNotifications.jsx";
+import FacultyInventoryTable from "./pages/FacultyInventoryTable.jsx";
 
 const router = createBrowserRouter([
   {
@@ -22,27 +35,60 @@ const router = createBrowserRouter([
     element: <First />,
     children: [
       { path: "/login", element: <Login /> },
-      { path: "/signUp", element: <Register /> },
+      { path: "/signUp", element: <SignUp /> },
+    // {
+    //     path: "/inventory",
+    //     element: (
+    //       <ProtectedRoute allowedRoles={["admin","storeman"]}>
+    //         <AddNewInventory />
+    //       </ProtectedRoute>
+    //     ),
+    //   },
+    {
+      path: "/purchase",
+      element: (
+        <ProtectedRoute allowedRoles={["admin","storeman"]}>
+          <AddNewInventory />
+        </ProtectedRoute>
+      ),
+    },
       {
-        path: "/add-inventory",
+        path: "/restock-inventory",
         element: (
-          <ProtectedRoute>
-            <AddInventory />
+          <ProtectedRoute allowedRoles={["admin", "storeman"]}>
+            <RestockInventory />
+          </ProtectedRoute>
+        ),
+      },
+
+      {
+        path: "/inventory-table",
+        element: (
+          <ProtectedRoute allowedRoles={["admin", "storeman","faculty","accountant"]}>
+            <InventoryTable />
           </ProtectedRoute>
         ),
       },
       {
-        path: "/inventory-table",
+        path: "/issue-inventory-table",
         element: (
-          <ProtectedRoute>
-            <InventoryTable />
+          <ProtectedRoute allowedRoles={["admin", "storeman"]}>
+            <IssueInventoryTable />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/request-inventory-table",
+        element: (
+          <ProtectedRoute allowedRoles={["admin", "storeman","faculty"]}>
+            <RequestInventoryTable />
           </ProtectedRoute>
         ),
       },
       {
         path: "/change-inventory",
         element: (
-          <ProtectedRoute>
+          <ProtectedRoute allowedRoles={["admin", "storeman"]}>
             <ChangeInventory />
           </ProtectedRoute>
         ),
@@ -50,7 +96,7 @@ const router = createBrowserRouter([
       {
         path: "/issue-inventory",
         element: (
-          <ProtectedRoute>
+          <ProtectedRoute allowedRoles={["admin","storeman"]}>
             <IssueInventory />
           </ProtectedRoute>
         ),
@@ -58,15 +104,113 @@ const router = createBrowserRouter([
       {
         path: "/return-inventory",
         element: (
-          <ProtectedRoute>
+          <ProtectedRoute allowedRoles={["admin","faculty"]}>
             <ReturnInventory />
           </ProtectedRoute>
         ),
       },
       {
+        path: "/purchase-table",
+        element: (
+          <ProtectedRoute allowedRoles={["admin","storeman"]}>
+            <PurchaseTable />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/purchase-inventory-table",
+        element: (
+          <ProtectedRoute allowedRoles={["admin","storeman"]}>
+            <PurchaseInventoryTable />
+          </ProtectedRoute>
+        ),
+      },
+
+      {
+        path: "/faculty-issue-inventory-table",
+        element: (
+          <ProtectedRoute allowedRoles={["admin","faculty"]}>
+            <FacultyIssueInventoryTable />
+        </ProtectedRoute>
+        ),
+      },
+
+      {
+        path: "/faculty-view-request-table",
+        element: (
+          <ProtectedRoute allowedRoles={["admin","faculty"]}>
+            <FacultyViewRequestTable />
+        </ProtectedRoute>
+        ),
+      },
+
+      {
+        path: "/faculty-request-inventory",
+        element: (
+          <ProtectedRoute allowedRoles={["admin","faculty"]}>
+            <FacultyRequestInventory />
+        </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/faculty-notification",
+        element: (
+          <ProtectedRoute allowedRoles={["admin","faculty"]}>
+            <FacultyNotification/>
+        </ProtectedRoute>
+        ),
+      },
+
+      {
+        path: "/faculty-return-inventory",
+        element: (
+          <ProtectedRoute allowedRoles={["admin","faculty"]}>
+          <FacultyReturnInventory />
+        </ProtectedRoute>
+        ),
+      },
+
+      {
+          path: "/notify",
+          element: (
+            <ProtectedRoute allowedRoles={["admin","faculty"]}>
+              <Notify />
+            </ProtectedRoute>
+          ),
+         },
+         {
+          path: "/faculty-request-inventory-table",
+          element: (
+            <ProtectedRoute allowedRoles={["admin","faculty"]}>
+              <FacultyRequestInventoryTable />
+            </ProtectedRoute>
+          ),
+         },
+
+
+         {
+          path: "/admin-request-table",
+          element: (
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <AdminRequestTable />
+            </ProtectedRoute>
+          ),
+        },
+
+
+        {
+          path: "/admin-notifications",
+          element: (
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <AdminNotifications />
+            </ProtectedRoute>
+          ),
+        },
+
+      {
         path: "/report",
         element: (
-          <ProtectedRoute>
+          <ProtectedRoute allowedRoles={["admin","storeman","accountant"]}>
             <Report />
           </ProtectedRoute>
         ),
@@ -74,7 +218,7 @@ const router = createBrowserRouter([
       {
         path: "/summary",
         element: (
-          <ProtectedRoute>
+          <ProtectedRoute allowedRoles={["admin","storeman","accountant"]}>
             <Summary />
           </ProtectedRoute>
         ),
@@ -82,16 +226,16 @@ const router = createBrowserRouter([
       {
         path: "/threshold",
         element: (
-          <ProtectedRoute>
+          <ProtectedRoute allowedRoles={["admin","storeman"]}>
             <ThreShold />
           </ProtectedRoute>
         ),
       },
       {
-        path: "/user_profile",
+        path: "/faculty-inventory-table",
         element: (
-          <ProtectedRoute>
-            <UserProfile />
+          <ProtectedRoute allowedRoles={["admin","faculty"]}>
+            <FacultyInventoryTable />
           </ProtectedRoute>
         ),
       },

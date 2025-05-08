@@ -1,34 +1,32 @@
 import jwt from "jsonwebtoken";
-import dotenv from 'dotenv';
-
+import dotenv from "dotenv";
 dotenv.config();
 
-export const authMiddleware = (req, res, next) => {
-  const token = req.cookies.token;
-  if (!token) {
-    return res.status(401).json({ message: "Unauthorized, please log in" });
-  }
-  
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;
-    next();
-  } catch (error) {
-    res.status(403).json({ message: "Invalid token" });
-  }
-};
+const authMiddleware =
+  (...tokenKeys) =>
+  (req, res, next) => {
+    // console.log(...tokenKeys);
 
-export const checkAdmin = (req, res, next) => {
-  const token = req.cookies.token;
-  if (!token) {
-    return res.status(401).json({ message: "Unauthorized, please log in" });
-  }
+    for (const tokenKey of tokenKeys) {
+      let token;
 
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;
-    next();
-  } catch (error) {
-    res.status(403).json({ message: "Invalid token" });
-  }
-};
+      if (tokenKey === "adminToken") token = req.cookies.adminToken;
+      else if (tokenKey === "facultyToken") token = req.cookies.facultyToken;
+      else if (tokenKey === "storemanToken") token = req.cookies.storemanToken;
+      else if (tokenKey === "accountantToken") token = req.cookies.accountantToken;
+      if (token) {
+        try {
+          const decoded = jwt.verify(token, process.env.JWT_SECRET);
+          req.user = decoded;
+          return next();
+          console.log(token);
+        } catch (error) {
+          continue;
+        }
+      }
+    }
+
+    return res.status(401).json({ message: "Unauthorized, please log in" });
+  };
+
+export default authMiddleware;

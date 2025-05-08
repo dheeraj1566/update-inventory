@@ -1,12 +1,12 @@
 import express from "express";
-import { loginFaculty, logoutFaculty,registerFaculty,checkFaculty } from "../controllers/facultyController.js";
+import { registerFaculty,facultyLogOut} from "../controllers/facultyController.js";
 
 
 const router = express.Router();
 
-router.post("/faculty-register", registerFaculty);
-router.post("/facultylogin", loginFaculty);
-router.get("/checkfaculty", checkFaculty);
-router.get("/faculty-logout",logoutFaculty);
+router.post("/facultysignUp", registerFaculty);
+// router.post("/facultylogin", loginFaculty);
+// router.get("/checkToken", checkAuth);
+router.post("/faculty-logout",facultyLogOut);
 
 export default router;

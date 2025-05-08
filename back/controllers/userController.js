@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import usermodel from "../models/usermodel.js";
-import { authMiddleware } from "../middlewares/authMiddleware.js";
+// import { authMiddleware } from "../middlewares/authMiddleware.js";
 
 export const registerUser = async (req, res) => {
   try {
@@ -20,7 +20,7 @@ export const registerUser = async (req, res) => {
     res.status(500).json({ message: "Server Error" });
   }
 };
-  
+
 export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;

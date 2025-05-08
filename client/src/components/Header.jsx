@@ -1,31 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { IoMdNotifications } from "react-icons/io";
-import { FaUser } from "react-icons/fa";
 import { IoIosLogOut } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Instance from "../AxiosConfig";
+import { useEffect, useState } from "react";
 
 function Header() {
   const { isAuthenticated, setIsAuthenticated } = useAuth();
   const navigate = useNavigate();
-  const [lowStockCount, setLowStockCount] = useState(0);
-
-  useEffect(() => {
-    // Fetch inventory and count items below threshold
-    Instance.get("/add/getTable")
-      .then((res) => {
-        const count = res.data.reduce((total, category) => {
-          const lowStockItems = category.items.filter(item => item.qty < item.threshold);
-          return total + lowStockItems.length;
-        }, 0);
-        setLowStockCount(count);
-      })
-      .catch((err) => {
-        console.error("Error fetching inventory for notification:", err);
-      });
-  }, []);
-
   const handleLogout = async () => {
     try {
       await Instance.post("/auth/logout");
@@ -36,43 +19,58 @@ function Header() {
     }
   };
 
+  const [thresholdCount, setThresholdCount] = useState(0);
+
+  useEffect(() => {
+    const fetchThresholdCount = async () => {
+      try {
+        const res = await Instance.get("/add/getTable");
+        let count = 0;
+
+        res.data.forEach((category) => {
+          category.items.forEach((item) => {
+            if (item.qty < item.threshold) count += 1;
+          });
+        });
+
+        setThresholdCount(count);
+      } catch (error) {
+        console.error("Error fetching threshold count:", error);
+      }
+    };
+
+    fetchThresholdCount();
+  }, []);
+
   return (
     <div className="right_side w-5/5">
-      <div className="nav_bar w-full h-19 py-5 px-5 flex items-center justify-between">
+      <div className="nav_bar bg-gray-200 w-full h-19 py-5 px-5 flex items-center justify-end">
         {/* Search Bar */}
-        <div className="search_bar rounded-4xl text-3xl font-bold text-blue-900 w-5/6 h-12 px-5 py-5 mx-30 flex justify-start items-center">
+        <div className="search_bar text-3xl font-bold text-blue-950 h-12  py-5 mx-40 flex justify-center items-center">
           Inventory Management System
         </div>
 
-        {/* Notification */}
-        <div className="relative notification_btn text-black text-3xl px-2 py-2 rounded-full mx-3">
+        <div className="notification_btn border-1 text-black text-3xl px-2 py-2 rounded-lg mx-3">
+          
           <Link to="/threshold">
-            <IoMdNotifications />
-            {lowStockCount > 0 && (
-              <span className="absolute -top-1 -right-1 bg-red-600 text-black text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
-                {lowStockCount}
+            <IoMdNotifications className="text-black" />
+            {thresholdCount > 0 && (
+              <span className="absolute top-1.5 right-30 bg-red-600 text-white text-xs font-bold rounded-full px-2 py-0.5">
+                {thresholdCount}
               </span>
             )}
           </Link>
         </div>
 
-        {/* User Profile */}
-        <div className="user_profile text-black text-2xl px-2 py-2 rounded-full mx-3">
-          <Link to="/user_profile">
-            <FaUser />
-          </Link>
-        </div>
-
-        {/* Logout/Login */}
         {isAuthenticated ? (
           <button
             onClick={handleLogout}
-            className="text-black text-2xl px-2 py-2 rounded-full mx-3 hover:text-red-500 transition"
+            className=" text-1xl px-2 py-2  bg-blue-900 text-white-50 border-1 rounded-lg  mx-3 hover:text-red-500 transition"
           >
-            <IoIosLogOut />
+            <p> Logout</p>
           </button>
         ) : (
-          <div className="user_profile text-black text-2xl px-1 py-2 rounded-full mx-1">
+          <div className=" text-black text-2xl px-1 py-2 rounded-full mx-1">
             <Link to="/login">
               <IoIosLogOut />
             </Link>
@@ -84,3 +82,4 @@ function Header() {
 }
 
 export default Header;
+
