@@ -1,6 +1,26 @@
-{
-  "fname":"dheeraj",
-  "lname":"jangid",
-  "email":"dheera1j@gmail.com.in",
-  "password":"123456"
-}
+[
+  {
+    "name": "Admin User",
+    "email": "admin@gmail.com",
+    "role": "admin",
+    "password": "$2b$10$ZbYxw1KY8D9hA0ZJhtq7iO2W3sP5xRAcKJClF6vMPD98Y61nTAqF2"
+  },
+  {
+    "name": "Faculty User",
+    "email": "faculty@gmail.com",
+    "role": "faculty",
+    "password": "$2b$10$ZbYxw1KY8D9hA0ZJhtq7iO2W3sP5xRAcKJClF6vMPD98Y61nTAqF2"
+  },
+  {
+    "name": "Storeman User",
+    "email": "storeman@gmail.com",
+    "role": "storeman",
+    "password": "$2b$10$ZbYxw1KY8D9hA0ZJhtq7iO2W3sP5xRAcKJClF6vMPD98Y61nTAqF2"
+  },
+  {
+    "name": "Accountant User",
+    "email": "accountant@gmail.com",
+    "role": "accountant",
+    "password": "$2b$10$ZbYxw1KY8D9hA0ZJhtq7iO2W3sP5xRAcKJClF6vMPD98Y61nTAqF2"
+  }
+]
